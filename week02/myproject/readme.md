@@ -7,24 +7,24 @@ Instruction: https://docs.google.com/document/d/1Rhr9L8du3RaN2tlS_1xvEt8HFKSpTul
 # Instruction
 
 1. Create folder week02
-    ````mkdir week02````
-    ````cd week02/````
-    ````conda activate dsi202_2022````
+    1. ```$ mkdir week02```
+    1. ```$ cd week02/```
+    1. ```$ conda activate dsi202_2022```
 2. Start a new Project 
-    ````django-admin startproject myproject````
+    1. ```$ django-admin startproject myproject```
 3. Start a new app
-    ````cd myproject````
-    ````python manage.py startapp myapp````
+    ```$ cd myproject```
+    ```$ python manage.py startapp myapp```
 4. Edit /myapp/models.py
-````
+```python
 from django.db import models
 
 class Car(models.Model):
     maker = models.CharField(max_length=30)
     model = models.CharField(max_length=30)
-````
+```
 5. Edit /myapp/admin.py
-````
+```python
 from django.contrib import admin
 from myapp.models import Car
 
@@ -32,9 +32,9 @@ class CarAdmin(admin.ModelAdmin):
     list_display=['model','maker']
     
 admin.site.register(Car,CarAdmin)
-````
+```
 6. Edit settings.py
-````
+```python
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,13 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp',
 ]
-````
+```
 7. Create schema and database
-    ````python manage.py makemigrations````
-    ````python manage.py migrate````
-    ````python manage.py createsuperuser````
+    ```$ python manage.py makemigrations```
+    ```$ python manage.py migrate```
+    ```$ python manage.py createsuperuser```
 8. Go to the admin page and edit the car record
-    1. ````python manage.py runserver 0.0.0.0:8002````
+    1. ```$ python manage.py runserver 0.0.0.0:8002```
     2. go to http://localhost:8002/admin
     3. Edit data
     4. And capture the image
