@@ -86,8 +86,8 @@ def get_qr(request,mobile="",nid="",amount=""):
     img = qrcode.make(code,box_size=4)
     
     # image = Image.new('RGB', (128,128), 'green')
-    response = HttpResponse(content_type='image/jpeg')
-    img.save(response, "JPEG")
+    response = HttpResponse(content_type='image/png')
+    img.save(response, "PNG")
     return response
 
     # def index():
