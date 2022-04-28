@@ -4,6 +4,7 @@ from myapp.forms import ProfileForm
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
 import json 
+from django.http import HttpResponse
 
 data =[]
 
@@ -43,19 +44,72 @@ def profile(request):
     else:
         context = {
             'form':form,
-            'user':request.user
+            'user':request.user,
+            'mobile': "0826639106",
+            'amount': 3.14159
             }
         return render(request, 'profile.html', context) 
 
 from django.http import HttpResponse
 from PIL import Image
+import libscrc
+import qrcode
 
-def get_qr(request):
+def calculate_crc(code):
+    crc = libscrc.ccitt_false(str.encode(code))
+    crc = str(hex(crc))
+    crc = crc[2:].upper()
+    return crc.rjust(4, '0')
 
-    image = Image.new('RGB', (128,128), 'green')
+def gen_code(mobile="", nid="", amount=1.23):
+    code="00020101021153037645802TH29370016A000000677010111"
+    if mobile:
+        tag,value = 1,"0066"+mobile[1:]
+        seller='{:02d}{:02d}{}'.format(tag,len(value), value)
+    elif nid:
+        tag,value = 2,nid
+        seller='{:02d}{:02d}{}'.format(tag,len(value), value)
+    else:
+        raise Exception("Error: gen_code() does not get seller mandatory details")
+    code+=seller
+    tag,value = 54, '{:.2f}'.format(amount)
+    code+='{:02d}{:02d}{}'.format(tag,len(value), value)
+    code+='6304'
+    code+=calculate_crc(code)
+    return code
 
+def get_qr(request,mobile="",nid="",amount=""):
+    message="mobile: %s, nid: %s, amount: %s"%(mobile,nid,amount)
+    print( message )
+    code=gen_code(mobile=mobile, amount=float(amount))#scb
+    print(code)
+    img = qrcode.make(code,box_size=4)
+    
+    # image = Image.new('RGB', (128,128), 'green')
     response = HttpResponse(content_type='image/jpeg')
-
-    image.save(response, "JPEG")
-
+    img.save(response, "JPEG")
     return response
+
+    # def index():
+    # mobile='0826639206'
+    # amount=3.14159
+    # code=gen_code(mobile=mobile, amount=float(amount))
+    # img = qrcode.make(code,box_size=4)
+    # buffered = BytesIO()
+    # img.save(buffered, format="PNG")
+    # return Response( 
+    #     body=buffered.getvalue(),
+    #     status_code=200,
+    #     headers={
+    #         'Content-Type': 'image/png',
+    #     }
+    # )
+    # return HttpResponse(code)
+
+
+def checkout(request):
+    context={
+        "mobile":"0826639206", #seller's mobile
+        "amount": 2.81619
+    }
+    return render(request, 'checkout.html', context)

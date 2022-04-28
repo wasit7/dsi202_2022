@@ -26,7 +26,10 @@ urlpatterns = [
     path('', ItemListView.as_view(), name='home'),
     path('add', views.add_to_cart, name='add'),
     path('profile/',views.profile, name='profile'),
-    path('qr', views.get_qr, name='qr'),
+    path('qr_mobile/<mobile>/<amount>/', views.get_qr, name='qr'),
+    path('qr_nid/<nid>/<amount>/', views.get_qr, name='qr'),
+    path('checkout/',views.checkout, name='checkout'),
+
     
 ]
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
