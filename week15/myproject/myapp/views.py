@@ -4,7 +4,6 @@ from myapp.forms import ProfileForm
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
 import json 
-from django.http import HttpResponse
 
 data =[]
 
@@ -84,28 +83,9 @@ def get_qr(request,mobile="",nid="",amount=""):
     code=gen_code(mobile=mobile, amount=float(amount))#scb
     print(code)
     img = qrcode.make(code,box_size=4)
-    
-    # image = Image.new('RGB', (128,128), 'green')
     response = HttpResponse(content_type='image/png')
     img.save(response, "PNG")
     return response
-
-    # def index():
-    # mobile='0826639206'
-    # amount=3.14159
-    # code=gen_code(mobile=mobile, amount=float(amount))
-    # img = qrcode.make(code,box_size=4)
-    # buffered = BytesIO()
-    # img.save(buffered, format="PNG")
-    # return Response( 
-    #     body=buffered.getvalue(),
-    #     status_code=200,
-    #     headers={
-    #         'Content-Type': 'image/png',
-    #     }
-    # )
-    # return HttpResponse(code)
-
 
 def checkout(request):
     context={
