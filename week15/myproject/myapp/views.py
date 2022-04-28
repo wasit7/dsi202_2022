@@ -47,3 +47,15 @@ def profile(request):
             }
         return render(request, 'profile.html', context) 
 
+from django.http import HttpResponse
+from PIL import Image
+
+def get_qr(request):
+
+    image = Image.new('RGB', (128,128), 'green')
+
+    response = HttpResponse(content_type='image/jpeg')
+
+    image.save(response, "JPEG")
+
+    return response
