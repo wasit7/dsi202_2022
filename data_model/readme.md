@@ -1,7 +1,8 @@
 ## setup testcase for TC06
 
+```sh
 sh setup.sh
-
+```
 
 ## docker-compose.yml
 ```yml
