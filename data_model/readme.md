@@ -1,5 +1,5 @@
 ## setup testcase for TC06
-design slide [s](https://docs.google.com/presentation/d/1T-oVlVRT6dkG9qvErxL3lXZNHZ9Og9wEdlvx86Pk8Mc/edit?usp=sharing)
+plese check [design slide](https://docs.google.com/presentation/d/1T-oVlVRT6dkG9qvErxL3lXZNHZ9Og9wEdlvx86Pk8Mc/edit?usp=sharing)
 
 ```sh
 $sh setup.sh
