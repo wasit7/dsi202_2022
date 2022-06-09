@@ -8,4 +8,4 @@ docker-compose run app2 python manage.py makemigrations
 docker-compose run app2 python manage.py migrate
 docker-compose run app2 python manage.py loaddata db2.json
 
-docker-compose up
+#docker-compose up
