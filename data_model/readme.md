@@ -5,6 +5,11 @@ plese check [design slide](https://docs.google.com/presentation/d/1T-oVlVRT6dkG9
 $sh setup.sh
 ```
 
+## run apps
+```sh
+$docker-compose up -d
+```
+
 ## docker-compose.yml
 ```yml
 version: '3.5'
