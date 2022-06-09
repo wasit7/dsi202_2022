@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.db.models import Sum, F
 
 # Create your models here.
 class Profile(models.Model):
@@ -35,6 +35,14 @@ class Item(models.Model):
 class Order(models.Model):
     profile = models.ForeignKey( Profile, on_delete=models.CASCADE)
     created = models.DateTimeField()
+    @property
+    
+    def total_price(self):
+        return OrderItem.objects.filter(order=self).aggregate(total=Sum(F('quantity')*F('item__unit_price')))['total']
+
+    def total_payment(self):
+        return Payment.objects.filter(order=self).aggregate(total=Sum('amount'))['total']
+
     def __str__(self):
         return "order_id:%s profile:%s"%(self.id,self.profile)
 
@@ -49,7 +57,10 @@ class OrderItem(models.Model):
     def __str__(self):
         return "order_id:%s, user:%s, %s * %s"%(self.order.id, self.order.profile.user, self.quantity, self.item)
 
-#class Payment(models.Model):
-    #order = models.ForeignKey( Order, on_delete=models.CASCADE)
-    #created = models.DateTimeField()
-    #amount = models.DecimalField(max_digits=6, decimal_places=2)
+class Payment(models.Model):
+    order = models.ForeignKey( 'Order', on_delete=models.CASCADE)
+    created = models.DateTimeField()
+    amount = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return "id:%s, user:%s, amount:%s"%(self.id, self.order.profile.user, self.amount)
